@@ -6,11 +6,17 @@ import { Container, FormControl, MenuItem, InputLabel } from '@material-ui/core'
 
 const useStyles = makeStyles({
     formControl: {
-        margin: 0,
-        minWidth: 120
+        marginLeft: 400,
+        marginTop: 200,
+        minWidth: 120,
+        
     },
     selectEmpty: {
         marginTop: 5
+    },
+    root: {
+        width: '100%',
+        maxWidth: 10000,        
     }
 })
 
@@ -19,12 +25,26 @@ export const SelectMenu = () => {
     const classes = useStyles()
     const [selectedUser, setSelectedUser] = useState('Bryan Oyloe')
 
-    const populateSelect = (userArray:string[]) => userArray.map((user:string) => <MenuItem value={user}>{user}</MenuItem>)
+    const populateSelect = (userArray:string[]) => {
+        return userArray.map((user:string) => <MenuItem value={user}>{user}</MenuItem>)
+    }
+
+    const handleSelectChange = (event:React.ChangeEvent<{value: unknown}>) => {
+        setSelectedUser(event.target.value as string)
+    }
 
     return (
-        <Container>
+        <Container className={classes.root}>
             <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Select A User</InputLabel>
+                <InputLabel id="select-label">Select A User</InputLabel>
+                <Select
+                    labelId="select-label"
+                    id="select"
+                    value={selectedUser}
+                    onChange={handleSelectChange}
+                >
+                    {populateSelect(users)}
+                </Select>
             </FormControl>
         </Container>
     )
